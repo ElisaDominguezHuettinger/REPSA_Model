@@ -11,11 +11,11 @@ load('Cob_tep_Palo_Euc.mat')
 %%
 
 %Dos puntos de equilibrio... creo que mu_EB es uno de los determinantes....
-%de ser asÌ tendrÌamos que analizar m·s a detalle la interacciÛn entre el
-%tepoz·n y el eucalipto... lo cual es lÛgico ecolÛgicamente... Si la
-%Budleia es el dominante y es sombrilla del palo loco, entonces lo mn·s
-%relevante para conocer el futuro del sistema es cnocer su relaciÛn... Si
-%varÌo el valor de muEB de .01 a .0001 pasa de biestabilidad a un estado
+%de ser as√≠ tendr√≠amos que analizar m√°s a detalle la interacci√≥n entre el
+%tepoz√°n y el eucalipto... lo cual es l√≥gico ecol√≥gicamente... Si la
+%Budleia es el dominante y es sombrilla del palo loco, entonces lo mn√°s
+%relevante para conocer el futuro del sistema es cnocer su relaci√≥n... Si
+%var√≠o el valor de muEB de .01 a .0001 pasa de biestabilidad a un estado
 %dominado por los eucaliptos.
 
 alpha_BS=.00137;
@@ -35,7 +35,7 @@ ST=146.9;
 % YA LO GUARDAMOS EN FUNCIONES
 
 %% declaramos las variables simbolicas:
-%{
+
 syms alpha_BS gamma_EB beta_BS mu_EB  alpha_PS teta_BP gamma_EP beta_PS mu_EP  alpha_ES beta_ES
 syms BS PS ES SL  
 %% ODES
@@ -43,7 +43,7 @@ dBS=((alpha_BS*BS*SL)/(1+(ES*gamma_EB)))-(BS*(beta_BS+(mu_EB*ES))) ; %Tepozanes
 dPS=(((alpha_PS*PS*SL)*(1+teta_BP*BS))/(1+(ES*gamma_EP)))-(PS*(beta_PS+(mu_EP*ES))) ; %Palo locos
 dES=(alpha_ES*ES*SL)-(beta_ES*ES); %Eucaliptos
 dSL=-((alpha_BS*BS*SL)/(1+(ES*gamma_EB)))+(BS*(beta_BS+(mu_EB*ES)))-(((alpha_PS*PS*SL)*(1+teta_BP*BS))/(1+(ES*gamma_EP)))+(PS*(beta_PS+(mu_EP*ES))) -(alpha_ES*ES*SL)+(beta_ES*ES); %espacio disponible
-%% checar que se cumplan ecuaciones de conservaci√≥n
+%% checar que se cumplan ecuaciones de conservaci√É¬≥n
 dBS+dPS+dES+dSL
 %% reducir el sistema a dos dimensines
 syms ST
@@ -53,9 +53,9 @@ dPS=((alpha_PS*PS*SL)*(1+teta_BP*BS))/(1+(ES*gamma_EP))-(PS*(beta_PS+(mu_EP*ES))
 dES=(alpha_ES*ES*SL)-(beta_ES*ES) ;
 %% sacamos los puntos de equilibrio
 
-[solBS,solPS,solES] = solve(dBS== 0, dPS== 0, dES==0, [BS PS ES])
+[solBS_SYM,solPS_SYM,solES_SYM] = solve(dBS== 0, dPS== 0, dES==0, [BS PS ES])
 
-%}
+
 %% y los acomodamos dentro de funciones
 solBS =@(alpha_BS, gamma_EB, beta_BS, mu_EB,  alpha_PS, teta_BP, gamma_EP, beta_PS, mu_EP,  alpha_ES, beta_ES, ST)[                                                                                                                                                                                                                                                                                                                                                                                                                -(beta_BS - ST*alpha_BS)/alpha_BS;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    0;
@@ -148,7 +148,7 @@ end;
 [BSss(stable_sol), PSss(stable_sol), ESss(stable_sol)]
 
 
-% bajo estos valores de par·metros, la solucion que domina es.
+% bajo estos valores de par√°metros, la solucion que domina es.
 
 %% vamos a ver 
 
@@ -157,12 +157,12 @@ end;
  matrix_pos_real
  
  
- %% empezamos con la integraciÛn numÈrica
+ %% empezamos con la integraci√≥n num√©rica
  
 Modelo_3_especies=@(t,y,alpha_BS, gamma_EB, beta_BS, mu_EB,  alpha_PS, teta_BP, gamma_EP, beta_PS, mu_EP,  alpha_ES, beta_ES, ST)[((alpha_BS*y(1)*(ST-y(1)-y(2)-y(3)))/(1+(y(3)*gamma_EB)))-(y(1)*(beta_BS+(mu_EB*y(3)))) ;((alpha_PS*y(2)*(ST-y(1)-y(2)-y(3)))*(1+teta_BP*y(1)))/(1+(y(3)*gamma_EP))-(y(2)*(beta_PS+(mu_EP*y(3)))) ; (alpha_ES*y(3)*(ST-y(1)-y(2)-y(3)))-(beta_ES*y(3))] ;
 
 
-%% Integrar numÈricamente
+%% Integrar num√©ricamente
 vec_tiempo=Cob_tep_Palo_Euc(:,1) ;
 vec_Var_estado_1=Cob_tep_Palo_Euc(:,2)+Cob_tep_Palo_Euc(:,3)  ;
 vec_Var_estado_2=Cob_tep_Palo_Euc(:,4);
@@ -170,9 +170,9 @@ vec_Var_estado_3=Cob_tep_Palo_Euc(:,5);
 
 
 %% dado que el primer (y unico) tiempo para el que tenemos datos para las tres especies es el segundo, partimos de ahi
-% tanto para definir el intervalo de integraciÛn como las condiciones
+% tanto para definir el intervalo de integraci√≥n como las condiciones
 % iniciales
-tspan=[vec_tiempo(2,1) 20+vec_tiempo(end,1)]-vec_tiempo(2,1); % intervalo de integraciÛn
+tspan=[vec_tiempo(2,1) 20+vec_tiempo(end,1)]-vec_tiempo(2,1); % intervalo de integraci√≥n
 y0 = [vec_Var_estado_1(2) vec_Var_estado_2(2) .5*vec_Var_estado_3(2)]; % intervalo de integracion
 
 %seleccionamos nuestro integrador favorito * (euler) (ode15, ode23,..)
@@ -184,7 +184,7 @@ subplot(1,3,1)
 plot(t, y(:,1), 'r')
 hold on
 scatter(Cob_tep_Palo_Euc(:,1), Cob_tep_Palo_Euc(:,2)+Cob_tep_Palo_Euc(:,3), 'rs', 'filled');
-ylabel('Tepoz·n (cobertura, arbustos + arboles')
+ylabel('Tepoz√°n (cobertura, arbustos + arboles')
 
 subplot(1,3,2)
 plot(t, y(:,2), 'b')
@@ -239,7 +239,7 @@ tspan2=[vec_tiempo(2,1) 1000+vec_tiempo(end,1)]-vec_tiempo(2,1)
 [t2,y2] = ode45(@(t,y)Modelo_3_especies(t,y,alpha_BS, gamma_EB, beta_BS, mu_EB,  alpha_PS, teta_BP, gamma_EP, beta_PS, mu_EP,  alpha_ES, beta_ES, ST),tspan2,y0);
 %%
 t2=t2+vec_tiempo(2,1);
-if ii>1 % si hay m·s de una solucion de equilibrio, ver a cual converge
+if ii>1 % si hay m√°s de una solucion de equilibrio, ver a cual converge
  for jj=1:size(index_stable_steady_state_sol)
   
   Error=sum(abs( y2(end,:)-matrix_pos_real(index_stable_steady_state_sol(jj),1:3)))
