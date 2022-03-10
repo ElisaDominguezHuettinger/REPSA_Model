@@ -36,3 +36,11 @@ A data-based mathematical model predicts dynamic trajectories of a protected pla
 •	Runs several trajectories (initial conditions) of the model 2B (native species with positive interactions + exotic species) with given parameters, 
   and colours the trajectories depending on where they converge to, to visualize in 3D the regions of attraction of the two stable states: AtractingRegions.m
   --> to be substituted by Pablos code (visualize / calculate / estimate / show the sepparatrix in a more elegant form)
+  
+ * Stability analysis and numerical integration of model II-A.   m3SPintNEG.m
+
+
+* generation of matrices with qualitative behaviours: 
+m3SPintNEG_Proportion_of_behaviours.m (model IIB)
+TresSP_c_int_p_nat_n_exo_Proportion_of_behaviours.m (Model IIA)
+
